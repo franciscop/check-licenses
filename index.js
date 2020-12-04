@@ -5,7 +5,7 @@ import chalk from "chalk";
 
 import licenses from "./src/licenses.js";
 import checkNodeVersion from "./src/checkNodeVersion.js";
-import findDependencies from "./findDependencies.js";
+import findDependencies from "./src/findDependencies.js";
 
 const cli = meow();
 
