@@ -3,18 +3,18 @@
 A simple tool to check all the licenses in your dependencies:
 
 ```bash
-$ npm i -g check-licenses
 $ licenses
-MIT —————————————————⟶ 1328
-ISC —————————————————⟶ 113
-CC0-1.0 —————————————⟶ 36
-BSD-3-Clause ————————⟶ 36
-Apache-2.0 ——————————⟶ 5
-BSD-2-Clause ————————⟶ 3
-Zlib ————————————————⟶ 1
+DOC —————————————————⟶ 56
+MIT —————————————————⟶ 56
+ISC —————————————————⟶ 7
+CC0-1.0 —————————————⟶ 4
+BSD-2-Clause ————————⟶ 2
+Apache-1.0 ——————————⟶ 2
+Apache-2.0 ——————————⟶ 2
 CC-BY-3.0 ———————————⟶ 1
-GPL-2.0 —————————————⟶ 1
 ```
+
+![Example image](./assets/demo.webp)
 
 - Check all dependencies for their licenses
 - Perform a check both in `package.json` and the `LICENSE` file
