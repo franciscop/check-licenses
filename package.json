@@ -11,9 +11,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "rollup -c",
-    "pretest": "npm run build",
-    "test": "jest --coverage"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [
     "legally",
@@ -29,31 +27,23 @@
   "bin": {
     "licenses": "index.js"
   },
-  "directories": {
-    "lib": "lib",
-    "test": "test"
-  },
   "files": [
-    "index.min.js",
-    "cli.js"
+    "index.js",
+    "src"
   ],
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=12.17.0"
   },
   "devDependencies": {
-    "files": "^2.1.0",
-    "jest": "^23.6.0",
-    "minimist": "^1.2.5",
-    "rollup": "^2.7.1",
-    "rollup-plugin-banner": "^0.2.1",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^5.3.0",
-    "validate-npm-package-name": "^3.0.0"
+    "jest": "^26.6.3"
   },
   "dependencies": {
     "chalk": "^2.4.2",
+    "files": "^2.1.0",
     "meow": "^8.0.0"
+  },
+  "jest": {
+    "transform": {},
+    "testEnvironment": "jest-environment-node"
   }
 }
