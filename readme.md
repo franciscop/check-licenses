@@ -1,4 +1,4 @@
-# Check Licenses
+# Check Licenses [![npx check-licenses](https://img.shields.io/badge/npx-check--licenses-blue.svg)](https://www.npmjs.com/package/check-licenses) [![test badge](https://github.com/franciscop/check-licenses/workflows/tests/badge.svg)](https://github.com/franciscop/check-licenses/blob/master/.github/workflows/tests.yml)
 
 A simple tool to check all the licenses in your dependencies:
 
