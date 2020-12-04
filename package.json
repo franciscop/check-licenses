@@ -25,9 +25,9 @@
     "open",
     "opensource"
   ],
-  "main": "index.min.js",
+  "main": "index.js",
   "bin": {
-    "licenses": "cli.js"
+    "licenses": "index.js"
   },
   "directories": {
     "lib": "lib",
