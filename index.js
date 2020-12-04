@@ -7,7 +7,41 @@ import licenses from "./src/licenses.js";
 import checkNodeVersion from "./src/checkNodeVersion.js";
 import findDependencies from "./src/findDependencies.js";
 
-const cli = meow();
+const cli = meow(
+  `
+  A simple tool to check all the licenses in your dependencies:
+    $ licenses
+    $ licenses --list
+
+  Options
+    --list, -l  Show a list of all of the dependencies instead of the summary
+
+  Examples
+    $ licenses
+    MIT —————————————————⟶ 1328
+    ISC —————————————————⟶ 113
+    CC0-1.0 —————————————⟶ 36
+    BSD-3-Clause ————————⟶ 36
+    Apache-2.0 ——————————⟶ 5
+    BSD-2-Clause ————————⟶ 3
+    Zlib ————————————————⟶ 1
+    CC-BY-3.0 ———————————⟶ 1
+    GPL-2.0 —————————————⟶ 1
+
+    $ licenses list
+    ...
+    test-exclude@5.2.3 ————————————⟶ ISC
+    text-table@0.2.0 ——————————————⟶ MIT
+    textarea-caret@3.0.2 ——————————⟶ MIT
+    throat@4.1.0 ——————————————————⟶ MIT
+    through@2.3.8 —————————————————⟶ Apache-2.0 + MIT
+    through2@2.0.5 ————————————————⟶ MIT
+    thunky@1.1.0 ——————————————————⟶ MIT
+    timers-browserify@2.0.11 ——————⟶ MIT
+    ...
+`,
+  { flags: { list: { type: "boolean", alias: "l", default: false } } }
+);
 
 const unique = (value, index, self) => self.indexOf(value) === index;
 

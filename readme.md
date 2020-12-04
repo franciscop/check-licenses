@@ -3,7 +3,8 @@
 A simple tool to check all the licenses in your dependencies:
 
 ```bash
-$ npx check-licenses
+$ npm i -g check-licenses
+$ licenses
 MIT —————————————————⟶ 1328
 ISC —————————————————⟶ 113
 CC0-1.0 —————————————⟶ 36
@@ -25,7 +26,7 @@ GPL-2.0 —————————————⟶ 1
 Then you can also use it to track down which dependencies have a license you might not like:
 
 ```bash
-$ npx check-licenses --list | grep GPL
+$ licenses --list | grep GPL
 node-forge@0.9.0 ——————————⟶ BSD-3-Clause + GPL-2.0
 ```
 
@@ -43,12 +44,29 @@ myproject@0.1.0 /home/francisco/projects/myproject
       └── node-forge@0.9.0
 ```
 
-## Count the licenses
+## Getting started
+
+You can either use `npx check-licenses`, or install this library globally and then run it at once:
+
+```bash
+npm i check-licenses -g
+licenses   # Note how this is just `licenses`
+licenses --list
+licenses --help
+
+# OR
+
+npx check-licenses
+npx check-licenses --list
+npx check-licenses --help
+```
+
+## Show the licenses used
 
 The base command is to count how many licenses of each type are in use:
 
 ```bash
-$ npx check-licenses
+$ licenses
 MIT —————————————————⟶ 1328
 ISC —————————————————⟶ 113
 CC0-1.0 —————————————⟶ 36
@@ -65,7 +83,7 @@ GPL-2.0 —————————————⟶ 1
 This can be used to find out what each of our dependencies (direct and indirect) is using. It might list multiple licenses in a single package:
 
 ```bash
-$ npx check-licenses --list
+$ licenses --list
 ...
 test-exclude@5.2.3 ————————————⟶ ISC
 text-table@0.2.0 ——————————————⟶ MIT
@@ -81,7 +99,7 @@ timers-browserify@2.0.11 ——————⟶ MIT
 This list is normally quite long, but it can be easily `grep`-ed. For example, to find all of the `Apache-2.0` licenses:
 
 ```bash
-$ npx check-licenses --list | grep Apache-2.0
+$ licenses --list | grep Apache-2.0
 fb-watchman@2.0.1 —————————————⟶ Apache-2.0
 forever-agent@0.6.1 ———————————⟶ Apache-2.0
 formik@2.1.5 ——————————————————⟶ Apache-2.0 + MIT
@@ -92,7 +110,7 @@ human-signals@1.1.1 ———————————⟶ Apache-2.0
 If there are multiple licenses in a library it's marked with a `+`. You can indeed also grep that!
 
 ```bash
-$ npx check-licenses --list | grep +
+$ licenses --list | grep +
 ...
 are-we-there-yet@1.1.5 ————————⟶ ISC + MIT
 atob@2.1.2 ————————————————————⟶ Apache-2.0 + MIT
