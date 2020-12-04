@@ -2,7 +2,7 @@
 
 A simple tool to check all the licenses in your dependencies:
 
-![Example image](./assets/demo.webp)
+<img src="./assets/demo.webp" alt="Example command" width="600px" />
 
 - Find all dependencies and their sub-dependencies in your project
 - Validate both the `package.json` and the `LICENSE` file per dependency
