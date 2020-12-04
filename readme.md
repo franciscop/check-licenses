@@ -2,26 +2,13 @@
 
 A simple tool to check all the licenses in your dependencies:
 
-```bash
-$ licenses
-DOC —————————————————⟶ 56
-MIT —————————————————⟶ 56
-ISC —————————————————⟶ 7
-CC0-1.0 —————————————⟶ 4
-BSD-2-Clause ————————⟶ 2
-Apache-1.0 ——————————⟶ 2
-Apache-2.0 ——————————⟶ 2
-CC-BY-3.0 ———————————⟶ 1
-```
-
 ![Example image](./assets/demo.webp)
 
-- Check all dependencies for their licenses
-- Perform a check both in `package.json` and the `LICENSE` file
-- Includes sub-dependencies in the check
-- Only production dependencies; you should not be shipping dev dependencies
+- Find all dependencies and their sub-dependencies in your project
+- Validate both the `package.json` and the `LICENSE` file per dependency
+- Only reads `dependencies` and not `devDependencies`
 - Uses `package-lock.json` for deterministic resolution
-- Handles multiple versions just fine
+- Handles multiple versions of the same library just fine
 
 Then you can also use it to track down which dependencies have a license you might not like:
 
