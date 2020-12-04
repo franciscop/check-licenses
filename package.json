@@ -1,0 +1,59 @@
+{
+  "name": "check-licenses",
+  "version": "0.1.0",
+  "description": "Check the licenses for the packages that you are using",
+  "homepage": "https://github.com/franciscop/check-licenses#readme",
+  "repository": "https://github.com/franciscop/check-licenses.git",
+  "funding": {
+    "url": "https://www.paypal.me/franciscopresencia/19"
+  },
+  "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c",
+    "pretest": "npm run build",
+    "test": "jest --coverage"
+  },
+  "keywords": [
+    "legally",
+    "licenses",
+    "check",
+    "legal",
+    "package",
+    "npm",
+    "open",
+    "opensource"
+  ],
+  "main": "index.min.js",
+  "bin": {
+    "licenses": "cli.js"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "files": [
+    "index.min.js",
+    "cli.js"
+  ],
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "devDependencies": {
+    "files": "^2.1.0",
+    "jest": "^23.6.0",
+    "minimist": "^1.2.5",
+    "rollup": "^2.7.1",
+    "rollup-plugin-banner": "^0.2.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.3.0",
+    "validate-npm-package-name": "^3.0.0"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "meow": "^8.0.0"
+  }
+}
