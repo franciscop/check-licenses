@@ -20,8 +20,7 @@ licenses   # Note how this is just `licenses`
 licenses --list
 licenses --help
 
-# OR
-
+# Or use the library straight from npm
 npx check-licenses
 npx check-licenses --list
 npx check-licenses --help
