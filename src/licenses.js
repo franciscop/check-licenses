@@ -760,7 +760,7 @@ export default [
     identifier: "DOC",
     shortIdentifier: "DOC",
     osiApproved: false,
-    regex: /DOC|DOC(.)License|DOC/i,
+    regex: /DOC|DOC(.)License/i,
   },
   {
     name: "Dotseqn License",

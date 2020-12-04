@@ -10,27 +10,6 @@ A simple tool to check all the licenses in your dependencies:
 - Uses `package-lock.json` for deterministic resolution
 - Handles multiple versions of the same library just fine
 
-Then you can also use it to track down which dependencies have a license you might not like:
-
-```bash
-$ licenses --list | grep GPL
-node-forge@0.9.0 ——————————⟶ BSD-3-Clause + GPL-2.0
-```
-
-With this information you can either:
-
-- Dig deeper: when is it BSD-3-Clause? when is it GPL-2.0?
-- Find out where this comes from with `npm ls`:
-
-```bash
-$ npm ls node-forge
-myproject@0.1.0 /home/francisco/projects/myproject
-└─┬ react-scripts@3.4.3
-  └─┬ webpack-dev-server@3.11.0
-    └─┬ selfsigned@1.10.7
-      └── node-forge@0.9.0
-```
-
 ## Getting started
 
 You can either use `npx check-licenses`, or install this library globally and then run it at once:
@@ -47,6 +26,22 @@ npx check-licenses
 npx check-licenses --list
 npx check-licenses --help
 ```
+
+The main command will trigger a license summary:
+
+```bash
+$ licenses
+DOC —————————————————⟶ 56
+MIT —————————————————⟶ 56
+ISC —————————————————⟶ 7
+CC0-1.0 —————————————⟶ 4
+BSD-2-Clause ————————⟶ 2
+Apache-1.0 ——————————⟶ 2
+Apache-2.0 ——————————⟶ 2
+CC-BY-3.0 ———————————⟶ 1
+```
+
+The `--list` option will show all the dependencies you have with their licenses:
 
 ## Show the licenses used
 
@@ -111,4 +106,42 @@ killable@1.0.1 ————————————————⟶ ISC + MIT
 lodash-es@4.17.15 —————————————⟶ CC0-1.0 + MIT
 lodash.memoize@4.1.2 ——————————⟶ CC0-1.0 + MIT
 ...
+```
+
+## Finding bad licenses
+
+Let's say you run this tool and find the dependencies, of which you really don't want to follow CC-BY-3.0:
+
+```bash
+$ licenses
+DOC —————————————————⟶ 56
+MIT —————————————————⟶ 56
+ISC —————————————————⟶ 7
+CC0-1.0 —————————————⟶ 4
+BSD-2-Clause ————————⟶ 2
+Apache-1.0 ——————————⟶ 2
+Apache-2.0 ——————————⟶ 2
+CC-BY-3.0 ———————————⟶ 1
+```
+
+Then you can also use it to track down which dependencies have this license:
+
+```bash
+$ licenses --list | grep CC-BY-3.0
+spdx-exceptions@2.3.0 ——————⟶ CC-BY-3.0
+```
+
+With this information you can either:
+
+- Dig deeper: some times it might be dual-licensed
+- Find out where this comes from with `npm ls`:
+
+```bash
+$ npm ls spdx-exceptions
+check-licenses@0.2.0 /home/francisco/check-licenses
+└─┬ meow@8.0.0
+  └─┬ normalize-package-data@3.0.0
+    └─┬ validate-npm-package-license@3.0.4
+      └─┬ spdx-expression-parse@3.0.1
+        └── spdx-exceptions@2.3.0
 ```
