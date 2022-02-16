@@ -79,6 +79,17 @@ You need ${path}{bold.yellow package-lock.json} to check the licenses:
 
   // Get the raw package-lock file into a JSON
   const { packages } = await readJson(lockFile);
+  
+  if (!packages) {
+    throw new Error(chalk`
+Your package-lock.json needs to have the key "packages" with all your dependencies:
+➤ Make sure you are in the correct folder
+➤ Generate the lock file with {inverse  npm install }
+
+If you already have it, please report this error with a copy of your "package-lock.json"
+    `);
+  }
+  
   const pkgs = Object.entries(packages)
     .filter(([path, { dev }]) => !dev) // Only production dependencies
     .map(([path, { version }]) => ({ version, path }))
