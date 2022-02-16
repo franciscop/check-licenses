@@ -18,26 +18,26 @@ const cli = meow(
 
   Examples
     $ licenses
-    MIT —————————————————⟶ 1328
-    ISC —————————————————⟶ 113
-    CC0-1.0 —————————————⟶ 36
-    BSD-3-Clause ————————⟶ 36
-    Apache-2.0 ——————————⟶ 5
-    BSD-2-Clause ————————⟶ 3
-    Zlib ————————————————⟶ 1
-    CC-BY-3.0 ———————————⟶ 1
-    GPL-2.0 —————————————⟶ 1
+    MIT ————————————————— 1328
+    ISC ————————————————— 113
+    CC0-1.0 ————————————— 36
+    BSD-3-Clause ———————— 36
+    Apache-2.0 —————————— 5
+    BSD-2-Clause ———————— 3
+    Zlib ———————————————— 1
+    CC-BY-3.0 ——————————— 1
+    GPL-2.0 ————————————— 1
 
     $ licenses list
     ...
-    test-exclude@5.2.3 ————————————⟶ ISC
-    text-table@0.2.0 ——————————————⟶ MIT
-    textarea-caret@3.0.2 ——————————⟶ MIT
-    throat@4.1.0 ——————————————————⟶ MIT
-    through@2.3.8 —————————————————⟶ Apache-2.0 + MIT
-    through2@2.0.5 ————————————————⟶ MIT
-    thunky@1.1.0 ——————————————————⟶ MIT
-    timers-browserify@2.0.11 ——————⟶ MIT
+    test-exclude@5.2.3 ———————————— ISC
+    text-table@0.2.0 —————————————— MIT
+    textarea-caret@3.0.2 —————————— MIT
+    throat@4.1.0 —————————————————— MIT
+    through@2.3.8 ————————————————— Apache-2.0 + MIT
+    through2@2.0.5 ———————————————— MIT
+    thunky@1.1.0 —————————————————— MIT
+    timers-browserify@2.0.11 —————— MIT
     ...
 `,
   { flags: { list: { type: "boolean", alias: "l", default: false } } }
@@ -116,7 +116,7 @@ const fileLicense = async (pkg) => {
     pkgs
       .map((pkg) => {
         const title = pkg.id.length >= 39 ? pkg.id.slice(0, 38) + "…" : pkg.id;
-        const dots = chalk.gray(title.padEnd(40, "—").replace(title, "") + "⟶");
+        const dots = chalk.gray(title.padEnd(40, "—").replace(title, "") + " ");
         const licenses = pkg.all.join(chalk.bold.magenta(" + "));
         return `${title} ${dots} ${licenses}`;
       })
@@ -131,7 +131,7 @@ const fileLicense = async (pkg) => {
       .sort(([k1, v1], [k2, v2]) => v2 - v1)
       .forEach(([key, value]) => {
         const title = key.length >= 19 ? key.slice(0, 18) + "…" : key;
-        const dots = chalk.gray(title.padEnd(20, "—").replace(title, "") + "⟶");
+        const dots = chalk.gray(title.padEnd(20, "—").replace(title, "") + " ");
         const licenses = value;
         console.log(`${title} ${dots} ${licenses}`);
       });
