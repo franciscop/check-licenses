@@ -11,6 +11,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "start": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [
@@ -38,6 +39,7 @@
     "jest": "^26.6.3"
   },
   "dependencies": {
+    "atocha": "^1.2.2",
     "chalk": "^2.4.2",
     "files": "^2.1.0",
     "meow": "^8.0.0"
