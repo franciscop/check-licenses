@@ -116,7 +116,7 @@ const fileLicense = async (pkg) => {
     pkgs
       .map((pkg) => {
         const title = pkg.id.length >= 39 ? pkg.id.slice(0, 38) + "…" : pkg.id;
-        const dots = chalk.gray(title.padEnd(40, "—").replace(title, "") + " ");
+        const dots = chalk.gray(title.padEnd(40, "—").replace(title, ""));
         const licenses = pkg.all.join(chalk.bold.magenta(" + "));
         return `${title} ${dots} ${licenses}`;
       })
@@ -131,7 +131,7 @@ const fileLicense = async (pkg) => {
       .sort(([k1, v1], [k2, v2]) => v2 - v1)
       .forEach(([key, value]) => {
         const title = key.length >= 19 ? key.slice(0, 18) + "…" : key;
-        const dots = chalk.gray(title.padEnd(20, "—").replace(title, "") + " ");
+        const dots = chalk.gray(title.padEnd(20, "—").replace(title, ""));
         const licenses = value;
         console.log(`${title} ${dots} ${licenses}`);
       });
