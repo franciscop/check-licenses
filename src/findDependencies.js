@@ -81,13 +81,12 @@ You need ${path}{bold.yellow package-lock.json} to check the licenses:
   const { packages } = await readJson(lockFile);
 
   if (!packages) {
-    console.log(await readJson(lockFile));
     throw new Error(chalk`
-Your package-lock.json needs to have the key "packages" with all your dependencies:
-➤ Make sure you are in the correct folder
-➤ Generate the lock file with {inverse  npm install }
+It seems you are using npm@6 or lower; check-licenses only works with Node.js 16/npm@7 or superior:
+➤ Please upgrade your npm version
+➤ Use the package "legally" instead to check the licenses
 
-If you already have it, please report this error with a copy of your "package-lock.json"
+If you already have npm@7 or higher, please report this bug with a copy of your "package-lock.json"
     `);
   }
 
