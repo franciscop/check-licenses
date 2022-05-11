@@ -44,7 +44,10 @@ const cli = meow(
     # Grab all of the GPL licenses
     $ npx check-licenses --list | grep GPL
 `,
-  { flags: { list: { type: "boolean", alias: "l", default: false } } }
+  {
+    importMeta: import.meta,
+    flags: { list: { type: "boolean", alias: "l", default: false } },
+  }
 );
 
 const unique = (value, index, self) => self.indexOf(value) === index;
