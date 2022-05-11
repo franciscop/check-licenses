@@ -99,6 +99,10 @@ const fileLicense = async (pkg) => {
     package: "required",
   });
 
+  if (!packages.length) {
+    return console.log("No production dependencies! 🥳");
+  }
+
   const pkgs = await swear(packages).map(async (pkg) => {
     const pkgSrc = pkg.path + "/package.json";
 
