@@ -2,10 +2,14 @@
 import { list, read, swear } from "files";
 import meow from "meow";
 import chalk from "chalk";
+import { fileURLToPath } from "node:url";
 
 import licenses from "./src/licenses.js";
 import checkNodeVersion from "./src/checkNodeVersion.js";
 import findDependencies from "./src/findDependencies.js";
+
+// const pkg = fileURLToPath(import.meta.url).replace("index.js", "package.json");
+// console.log("ABC", fileURLToPath(import.meta.url));
 
 const cli = meow(
   `
@@ -46,9 +50,12 @@ const cli = meow(
 `,
   {
     importMeta: import.meta,
+    // pkg: await read(pkg).then((d) => JSON.parse(d)),
     flags: { list: { type: "boolean", alias: "l", default: false } },
   }
 );
+
+console.log("Meta:", import.meta);
 
 const unique = (value, index, self) => self.indexOf(value) === index;
 
