@@ -1,6 +1,6 @@
 {
   "name": "check-licenses",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Check the licenses for the packages that you are using",
   "homepage": "https://github.com/franciscop/check-licenses#readme",
   "repository": "https://github.com/franciscop/check-licenses.git",
