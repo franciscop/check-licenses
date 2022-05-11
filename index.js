@@ -10,14 +10,15 @@ import findDependencies from "./src/findDependencies.js";
 const cli = meow(
   `
   A simple tool to check all the licenses in your dependencies:
-    $ licenses
-    $ licenses --list
+    $ npx check-licenses
+    $ npx check-licenses --list
+    $ npx --yes check-licenses   # CI, automated
 
   Options
     --list, -l  Show a list of all of the dependencies instead of the summary
 
   Examples
-    $ licenses
+    $ npx check-licenses
     MIT ————————————————— 1328
     ISC ————————————————— 113
     CC0-1.0 ————————————— 36
@@ -28,7 +29,7 @@ const cli = meow(
     CC-BY-3.0 ——————————— 1
     GPL-2.0 ————————————— 1
 
-    $ licenses list
+    $ npx check-licenses --list
     ...
     test-exclude@5.2.3 ———————————— ISC
     text-table@0.2.0 —————————————— MIT
@@ -39,6 +40,9 @@ const cli = meow(
     thunky@1.1.0 —————————————————— MIT
     timers-browserify@2.0.11 —————— MIT
     ...
+
+    # Grab all of the GPL licenses
+    $ npx check-licenses --list | grep GPL
 `,
   { flags: { list: { type: "boolean", alias: "l", default: false } } }
 );
