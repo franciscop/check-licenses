@@ -22,13 +22,20 @@ const getName = (path) => {
 };
 
 const checkMissingPkg = async (packages) => {
+  let missingOptional = 0;
+
   // Check for any missing `package.json` within the dependencies
   const missing = await swear(packages)
-    .map((pkg) => pkg.path)
-    .filter(async (file) => {
+    .filter(async (pkg) => {
+      const file = pkg.path;
       if (await exists(file + "/package.json")) return false;
+      if (pkg.optional) {
+        missingOptional++;
+        return false;
+      }
       return true;
-    });
+    })
+    .map((pkg) => pkg.path);
 
   // All good!
   if (!missing.length) return;
@@ -45,14 +52,7 @@ To {bold.green try to solve} this you can try:
   );
 };
 
-export default async function findDependencies(
-  folder = process.cwd(),
-  options = {}
-) {
-  if (!options.package) {
-    options.package = "skip";
-  }
-
+export default async function findDependencies(folder = process.cwd()) {
   const pkgFile = join(folder, "./package.json");
   const lockFile = join(folder, "./package-lock.json");
 
@@ -64,7 +64,6 @@ You need a ${path}{bold.yellow package.json} to check the licenses. Solutions:
 ➤ Generate it with {inverse  npm init } first
 `);
   }
-  const pkg = await readJson(pkgFile);
 
   if (!(await exists(lockFile))) {
     const path = nicePath(folder);
@@ -92,7 +91,11 @@ If you already have npm@7 or higher, please report this bug with a copy of your 
 
   const pkgs = Object.entries(packages)
     .filter(([path, { dev }]) => !dev) // Only production dependencies
-    .map(([path, { version }]) => ({ version, path }))
+    .map(([path, { version, optional }]) => ({
+      version,
+      path,
+      optional: Boolean(optional),
+    }))
     .filter((pkg) => pkg.path) // Avoid packages with no path
     .map((pkg) => ({
       id: `${getName(pkg.path)}@${pkg.version}`,
@@ -102,27 +105,11 @@ If you already have npm@7 or higher, please report this bug with a copy of your 
     .filter((pkg, i, all) => i === all.findIndex((p) => p.id === pkg.id))
     .sort((a, b) => a.id.localeCompare(b.id));
 
-  // Don't care at all; just return the full list
-  if (options.package === "ignore") {
-    return pkgs;
-  }
+  // Check that all packages have their valid package.json
+  await checkMissingPkg(pkgs);
 
-  // Want the list with valid package.json; filter out those without it
-  if (options.package === "skip") {
-    return pkgs.filter((pkg) => {
-      return exists(pkg.path + "/package.json");
-    });
-  }
-
-  // Make sure that all the packages have their associated package.json
-  if (options.package === "required") {
-    await checkMissingPkg(pkgs);
-    return pkgs;
-  }
-
-  throw new Error(`Invalid package option ${options.package}, valid ones are:
-➤ ignore: (default) don't check for the package.json at all
-➤ skip: filter out those packages without a valid package.json
-➤ required: throw if some package has a missing package.json
-`);
+  return swear(pkgs).map(async (pkg) => {
+    const missing = !(await exists(pkg.path + "/package.json"));
+    return { ...pkg, missing };
+  });
 }

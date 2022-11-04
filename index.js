@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { list, read, swear } from "files";
+import { exists, list, read, swear } from "files";
 import meow from "meow";
 import chalk from "chalk";
 import { fileURLToPath } from "node:url";
@@ -95,32 +95,30 @@ const fileLicense = async (pkg) => {
   checkNodeVersion("12.17.0");
 
   // Find all the required dependencies
-  const packages = await findDependencies(process.cwd(), {
-    package: "required",
-  });
+  const packages = await findDependencies(process.cwd());
 
   if (!packages.length) {
     return console.log("No production dependencies! 🥳");
   }
 
   const pkgs = await swear(packages).map(async (pkg) => {
+    if (pkg.missing) {
+      return { ...pkg, all: ["missing"] };
+    }
+
     const pkgSrc = pkg.path + "/package.json";
 
     // Can find a package.json
     const info = await read(pkgSrc).then((data) => JSON.parse(data));
 
     // We have a better name to display if we find the package.json:
+    // console.log(pkg, info);
     pkg.name = info.name;
     pkg.version = info.version;
     pkg.package = pkgLicense(info);
 
     pkg.file = await fileLicense(pkg);
-
-    // pkg.readme = await readmeLicense(pkg);
-
-    // pkg.all = [...pkg.package, ...pkg.file, ...pkg.readme].filter(unique);
     pkg.all = [...pkg.package, ...pkg.file].filter(unique).sort();
-
     return pkg;
   });
 
@@ -129,7 +127,10 @@ const fileLicense = async (pkg) => {
       .map((pkg) => {
         const title = pkg.id.length >= 39 ? pkg.id.slice(0, 38) + "…" : pkg.id;
         const dots = chalk.gray(title.padEnd(40, "—").replace(title, ""));
-        const licenses = pkg.all.join(chalk.bold.magenta(" + "));
+        let licenses = pkg.all.join(chalk.bold.magenta(" + "));
+        if (licenses === "missing") {
+          licenses = chalk.gray("missing");
+        }
         return `${title} ${dots} ${licenses}`;
       })
       .map((line) => console.log(line));
@@ -140,13 +141,23 @@ const fileLicense = async (pkg) => {
         .flat()
         .reduce((all, name) => ({ ...all, [name]: (all[name] || 0) + 1 }), {})
     )
-      .sort(([k1, v1], [k2, v2]) => v2 - v1)
+      .sort((p1, p2) => p2[1] - p1[1])
       .forEach(([key, value]) => {
-        const title = key.length >= 19 ? key.slice(0, 18) + "…" : key;
+        let title = key.length >= 19 ? key.slice(0, 18) + "…" : key;
         const dots = chalk.gray(title.padEnd(20, "—").replace(title, ""));
         const licenses = value;
+        if (title === "missing") {
+          title = chalk.dim("missing");
+        }
         console.log(`${title} ${dots} ${licenses}`);
       });
+  }
+
+  const missingOptional = pkgs.filter((pkg) => pkg.missing).length;
+  if (missingOptional) {
+    console.warn(
+      chalk`\n{yellow Warning}: missing package.json from {bold.italic ${missingOptional} optional} packages`
+    );
   }
 })().catch((error) => {
   console.log(chalk`{red.bold Error:} ${error.message.trim()}`);
