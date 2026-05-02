@@ -1,6 +1,8 @@
 name: tests
 
-on: [push]
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -8,13 +10,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      - name: Use Node.js latest
-        uses: actions/setup-node@v6
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: "lts/*"
+          bun-version: latest
       - name: Install dependencies
-        run: npm install
+        run: bun install
       - name: Run the tests
-        run: npm test
+        run: bun test
         env:
           CI: true
