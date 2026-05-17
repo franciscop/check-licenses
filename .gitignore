@@ -74,3 +74,4 @@ typings/
 
 # This is a library so don't include it
 package-lock.json
+bun.lock
