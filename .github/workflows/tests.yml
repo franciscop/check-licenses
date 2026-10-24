@@ -16,6 +16,8 @@ jobs:
           bun-version: latest
       - name: Install dependencies
         run: bun install
+      - name: Generate package-lock.json, which the CLI reads
+        run: npm install --package-lock-only --ignore-scripts
       - name: Run the tests
         run: bun test
         env:
