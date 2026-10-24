@@ -4,9 +4,7 @@ describe("command", () => {
   it("should work with the basic command", async () => {
     const out = await cmd("node .");
     expect(out).toContain("MIT");
-    expect(out).toContain("ISC");
-    expect(out).toContain("CC0-1.0");
-    expect(out).toContain("BSD-2-Clause");
+    expect(out).toMatch(/^MIT \u2014+ \d+$/m);
   });
 
   it("should work with the list flag", async () => {

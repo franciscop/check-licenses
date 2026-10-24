@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import color from "nocolor";
 
 export default function checkVersion(version, exist = process.version) {
   const expect = version
@@ -17,10 +17,10 @@ export default function checkVersion(version, exist = process.version) {
   }
 
   throw new Error(
-    chalk`Node.js version should be {green.bold ${version}+}, instead {red.bold ${process.version}} found.
+    color`Node.js version should be {green}{bright}${version}+{/}, instead {red}{bright}${process.version}{/} found.
 ➤ Please upgrade Node.js and then try again.
-➤ If you are using {bold nvm}, do {inverse  nvm install node --reinstall-packages-from=node }
-➤ If you are using {bold brew}, do {inverse  brew upgrade node }
+➤ If you are using {bright}nvm{/}, do {reverse} nvm install node --reinstall-packages-from=node {/}
+➤ If you are using {bright}brew{/}, do {reverse} brew upgrade node {/}
 https://bytearcher.com/articles/ways-to-get-the-latest-node.js-version-on-a-mac/
 `
   );

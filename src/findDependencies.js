@@ -1,5 +1,5 @@
 import { exists, read, swear } from "files";
-import chalk from "chalk";
+import color from "nocolor";
 import os from "os";
 import { join } from "path";
 
@@ -36,14 +36,9 @@ const checkMissingPkg = async (packages) => {
   if (!missing.length) return;
 
   throw new Error(
-    chalk`These dependencies are missing their ${chalk.bold("package.json")}:
-${missing
-  .map((folder) => chalk`➤ ${folder}/{bold package.json} (not found)`)
-  .join("\n")}
-
-To {bold.green try to solve} this you can try:
-➤ Perform a normal install with {inverse  npm install }
-➤ Reinstall all with {inverse  rm -rf node_modules && npm install }`
+    color("These dependencies are missing their {bright}package.json{/}:\n") +
+      missing.map((folder) => `➤ ${folder}/` + color("{bright}package.json{/} (not found)")).join("\n") +
+      color("\n\nTo {bright}{green}try to solve{/} this you can try:\n➤ Perform a normal install with {reverse} npm install {/}\n➤ Reinstall all with {reverse} rm -rf node_modules && npm install {/}")
   );
 };
 
@@ -53,29 +48,30 @@ export default async function findDependencies(folder = process.cwd()) {
 
   if (!(await exists(pkgFile))) {
     const path = nicePath(folder);
-    throw new Error(chalk`
-You need a ${path}{bold.yellow package.json} to check the licenses. Solutions:
-➤ Make sure you are in the right folder
-➤ Generate it with {inverse  npm init } first
-`);
+    throw new Error(
+      `\nYou need a ${path}` +
+        color("{bright}{yellow}package.json{/} to check the licenses. Solutions:\n➤ Make sure you are in the right folder\n➤ Generate it with {reverse} npm init {/} first\n")
+    );
   }
 
   if (!(await exists(lockFile))) {
     const path = nicePath(folder);
-    throw new Error(chalk`
-You need ${path}{bold.yellow package-lock.json} to check the licenses:
+    throw new Error(
+      `\nYou need ${path}` +
+        color`{bright}{yellow}package-lock.json{/} to check the licenses:
 ➤ Make sure you are in the correct folder
-➤ Generate the lock file with {inverse  npm install }
+➤ Generate the lock file with {reverse} npm install {/}
 ➤ It will make your installs deterministic
 ➤ You can remove it after the license check
-    `);
+    `
+    );
   }
 
   // Get the raw package-lock file into a JSON
   const { packages } = await readJson(lockFile);
 
   if (!packages) {
-    throw new Error(chalk`
+    throw new Error(color`
 It seems you are using npm@6 or lower; check-licenses only works with Node.js 16/npm@7 or superior:
 ➤ Please upgrade your npm version
 ➤ Use the package "legally" instead to check the licenses

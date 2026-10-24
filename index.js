@@ -1,11 +1,14 @@
 #!/usr/bin/env node
 import { list, read, swear } from "files";
 import meow from "meow";
-import chalk from "chalk";
+import color from "nocolor";
 
 import licenses from "./src/licenses.js";
 import checkNodeVersion from "./src/checkNodeVersion.js";
 import findDependencies from "./src/findDependencies.js";
+
+// Plain output when piped or redirected, as chalk did
+if (!process.stdout.isTTY) process.env.NO_COLOR ??= "1";
 
 const cli = meow(
   `
@@ -46,7 +49,7 @@ const cli = meow(
 `,
   {
     importMeta: import.meta,
-    flags: { list: { type: "boolean", alias: "l", default: false } },
+    flags: { list: { type: "boolean", shortFlag: "l", default: false } },
   }
 );
 
@@ -125,10 +128,10 @@ const fileLicense = async (pkg) => {
     pkgs
       .map((pkg) => {
         const title = pkg.id.length >= 39 ? pkg.id.slice(0, 38) + "…" : pkg.id;
-        const dots = chalk.gray(title.padEnd(40, "—").replace(title, ""));
-        let licenses = pkg.all.join(chalk.bold.magenta(" + "));
+        const dots = color("{dim}") + title.padEnd(40, "—").replace(title, "") + color("{/}");
+        let licenses = pkg.all.join(color("{bright}{magenta} + {/}"));
         if (licenses === "missing") {
-          licenses = chalk.gray("missing");
+          licenses = color("{dim}missing{/}");
         }
         return `${title} ${dots} ${licenses}`;
       })
@@ -143,10 +146,10 @@ const fileLicense = async (pkg) => {
       .sort((p1, p2) => p2[1] - p1[1])
       .forEach(([key, value]) => {
         let title = key.length >= 19 ? key.slice(0, 18) + "…" : key;
-        const dots = chalk.gray(title.padEnd(20, "—").replace(title, ""));
+        const dots = color("{dim}") + title.padEnd(20, "—").replace(title, "") + color("{/}");
         const licenses = value;
         if (title === "missing") {
-          title = chalk.dim("missing");
+          title = color("{dim}missing{/}");
         }
         console.log(`${title} ${dots} ${licenses}`);
       });
@@ -155,9 +158,9 @@ const fileLicense = async (pkg) => {
   const missingOptional = pkgs.filter((pkg) => pkg.missing).length;
   if (missingOptional) {
     console.warn(
-      chalk`\n{yellow Warning}: missing package.json from {bold.italic ${missingOptional} optional} packages`
+      color("\n{yellow}Warning{/}: missing package.json from {bright}") + missingOptional + color(" optional{/} packages")
     );
   }
 })().catch((error) => {
-  console.log(chalk`{red.bold Error:} ${error.message.trim()}`);
+  console.log(color("{red}{bright}Error:{/} ") + error.message.trim());
 });
