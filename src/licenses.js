@@ -270,7 +270,7 @@ export default [
     identifier: "BSD-2-Clause",
     shortIdentifier: "BSD",
     osiApproved: true,
-    regex: /BSD-2-Clause|\"BSD(.)2-clause(.)\"\"Simplified\"\"(.)License\"/i,
+    regex: /BSD-2-Clause|"BSD(.)2-clause(.)""Simplified""(.)License"/i,
   },
   {
     name: "BSD 2-clause FreeBSD License",
@@ -291,7 +291,7 @@ export default [
     identifier: "BSD-3-Clause",
     shortIdentifier: "BSD",
     osiApproved: true,
-    regex: /BSD-3-Clause|\"BSD(.)3-clause(.)\"\"New\"\"(.)or(.)\"\"Revised\"\"(.)License\"/i,
+    regex: /BSD-3-Clause|"BSD(.)3-clause(.)""New""(.)or(.)""Revised""(.)License"/i,
   },
   {
     name: "BSD 3-clause Clear License",
@@ -305,7 +305,7 @@ export default [
     identifier: "BSD-4-Clause",
     shortIdentifier: "BSD",
     osiApproved: false,
-    regex: /BSD-4-Clause|\"BSD(.)4-clause(.)\"\"Original\"\"(.)or(.)\"\"Old\"\"(.)License\"/i,
+    regex: /BSD-4-Clause|"BSD(.)4-clause(.)""Original""(.)or(.)""Old""(.)License"/i,
   },
   {
     name: "BSD Protection License",

@@ -1,8 +1,7 @@
 #!/usr/bin/env node
-import { exists, list, read, swear } from "files";
+import { list, read, swear } from "files";
 import meow from "meow";
 import chalk from "chalk";
-import { fileURLToPath } from "node:url";
 
 import licenses from "./src/licenses.js";
 import checkNodeVersion from "./src/checkNodeVersion.js";

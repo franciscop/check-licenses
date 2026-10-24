@@ -1,4 +1,4 @@
-import { exists, list, read, swear } from "files";
+import { exists, read, swear } from "files";
 import chalk from "chalk";
 import os from "os";
 import { join } from "path";
@@ -22,17 +22,12 @@ const getName = (path) => {
 };
 
 const checkMissingPkg = async (packages) => {
-  let missingOptional = 0;
-
   // Check for any missing `package.json` within the dependencies
   const missing = await swear(packages)
     .filter(async (pkg) => {
       const file = pkg.path;
       if (await exists(file + "/package.json")) return false;
-      if (pkg.optional) {
-        missingOptional++;
-        return false;
-      }
+      if (pkg.optional) return false;
       return true;
     })
     .map((pkg) => pkg.path);
@@ -90,7 +85,7 @@ If you already have npm@7 or higher, please report this bug with a copy of your 
   }
 
   const pkgs = Object.entries(packages)
-    .filter(([path, { dev }]) => !dev) // Only production dependencies
+    .filter(([, { dev }]) => !dev) // Only production dependencies
     .map(([path, { version, optional }]) => ({
       version,
       path,
